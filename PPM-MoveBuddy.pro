@@ -4,23 +4,33 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
-        src/login.cpp \
-        src/main.cpp \
-        ui/crimestatsmain.cpp
+    src/navwindow.cpp \
+    src/profile.cpp \
+    src/main.cpp \
+    src/crimestatsmain.cpp \
+    src/mainwindow.cpp
 
 FORMS += \
-    ui/crimestatsmain.ui \
-    ui/login.ui
+    ui/navwindow.ui \
+    ui/profile.ui \
+    ui/mainwindow.ui \
+    ui/crimestatsmain.ui
 
 HEADERS += \
-    headers/login.h \
-    ui/crimestatsmain.h
+    headers/crimestatsmain.h \
+    headers/mainwindow.h \
+    headers/profile.h \
+    headers/navwindow.h
 
 BUILD += \
-    build/ui_login.h
+    build/ui_mainwindow.h
 
 QT += widgets
 
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    src/passwordFile \
+    src/usernameFile
