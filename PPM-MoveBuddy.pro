@@ -4,13 +4,15 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
+    src/crimestatsmap.cpp \
     src/navwindow.cpp \
     src/profile.cpp \
     src/main.cpp \
     src/crimestatsmain.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
 
 FORMS += \
+    ui/crimestatsmap.ui \
     ui/navwindow.ui \
     ui/profile.ui \
     ui/mainwindow.ui \
@@ -20,7 +22,8 @@ HEADERS += \
     headers/crimestatsmain.h \
     headers/mainwindow.h \
     headers/profile.h \
-    headers/navwindow.h
+    headers/navwindow.h \
+    headers/crimestatsmap.h
 
 BUILD += \
     build/ui_mainwindow.h

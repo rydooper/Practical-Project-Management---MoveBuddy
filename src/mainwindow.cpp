@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -11,8 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->incorrectLabel->hide();
+
     ui->stackedWidget->insertWidget(1, &_navWinForm);
     connect(&_navWinForm, SIGNAL(logout()), this, SLOT(returnLogin()));
+    ui->passwordInputBox->setEchoMode(QLineEdit::Password);
 }
 
 MainWindow::~MainWindow()
@@ -30,34 +33,40 @@ void MainWindow::on_loginButton_clicked()
     using namespace std;
     ifstream userDetails;
     string line;
-    string usernames[3];
-    string passwords[3];
-    userDetails.open("usernameFile.txt");
+    string usernames;
+    string passwords;
+    struct userDetails user;
+
+    userDetails.open("userDetails.txt");
     if (userDetails.is_open()) {
         while (getline(userDetails, line)) {
             stringstream ss(line);
-            for (int i=0; i < 3; i++) {
-                ss >> usernames[i] >> passwords[i];
-            }
-        }
-        QString userInput = ui->usernameInputBox->text();
-        string userInputString = userInput.toLocal8Bit().constData();
-        for (int i=0; i < 3; i++) {
-            if (userInputString == usernames[i]) {
+
+            ss >> usernames >> passwords;
+            QString userInput = ui->usernameInputBox->text();
+            string userInputString = userInput.toLocal8Bit().constData();
+            if (userInputString == usernames) {
                 QString passInput = ui->passwordInputBox->text();
                 string passInputString = passInput.toLocal8Bit().constData();
-                if (passInputString == passwords[i]) {
+                if (passInputString == passwords) {
+                    ss >> user.username >> user.password >> user.privacy;
+                    extern struct userDetails user;
+
                     ui->stackedWidget->setCurrentIndex(1);
                     ui->usernameInputBox->clear();
                     ui->passwordInputBox->clear();
                     ui->incorrectLabel->hide();
+                } else {
+                    ui->incorrectLabel->show();
+                    break;
                 }
             } else {
-                ui->incorrectLabel->show();
+                continue;
             }
         }
     }
-} //issue: takes chloeDaniels (last username) would be only valid, need to store each username not just last
+
+}
 
 void MainWindow::on_exitButton_clicked()
 {
