@@ -8,8 +8,10 @@
 QString usernameQS;
 QString loggedInUser;
 QString passwordQS;
+QString emailQS;
 QString privacyQS;
 QString locationQS;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -37,6 +39,7 @@ void MainWindow::on_loginButton_clicked()
     string line;
     string usernames;
     string passwords;
+    string email;
     string privacy;
     string location;
 
@@ -44,7 +47,7 @@ void MainWindow::on_loginButton_clicked()
     if (userDetails.is_open()) {
         while (getline(userDetails, line)) {
             stringstream ss(line);
-            ss >> usernames >> passwords >> privacy >> location;
+            ss >> usernames >> passwords >> email >> privacy >> location;
             QString userInput = ui->usernameInputBox->text();
             string userInputString = userInput.toLocal8Bit().constData(); //QString to string is .toLocal8Bit().constData()
 
@@ -57,13 +60,10 @@ void MainWindow::on_loginButton_clicked()
                     ui->stackedWidget->setCurrentIndex(1);
                     ui->usernameInputBox->clear();
                     ui->passwordInputBox->clear();
-                    ui->incorrectLabel->hide();
 
-                    usernameQS = userInput;
-                    loggedInUser = userInput;
-                    passwordQS = passInput;
-                    privacyQS = privacy.c_str();
-                    locationQS = location.c_str(); //string to QString is .c_str()
+                    usernameQS = userInput, loggedInUser = userInput, passwordQS = passInput;
+                    emailQS = email.c_str(), privacyQS = privacy.c_str(), locationQS = location.c_str();
+                    //string to QString is .c_str()
                 } else {
                     ui->incorrectLabel->show();
                     break;
@@ -73,6 +73,7 @@ void MainWindow::on_loginButton_clicked()
             }
         }
     }
+    userDetails.close();
 }
 
 void MainWindow::on_exitButton_clicked()
